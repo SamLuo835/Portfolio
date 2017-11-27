@@ -35,7 +35,7 @@
 	public function registerMember($fName,$lName,$secret,$date,$gender,$email,$safeUser) {
 		//connect to database
 		try {
-			$dbh = new PDO("mysql:host=localhost;dbname=luojianl_firstDB", "luojianl", "5197295829,./Ljl");
+			$dbh = new PDO("mysql:host=dev.fast.sheridanc.on.ca:3306;dbname=luojianl_firstDB", "luojianl", "5197295829,./Ljl");
 		} catch (Exception $e) {
 			error_log("Cannot connect to MySQL: $e\n", 3, "myErrors.log");
 			return false;
@@ -62,7 +62,7 @@
 	public function authenticate($user, $pass) {
 		//connect to database
 		try {
-			$dbh = new PDO("mysql:host=localhost;dbname=luojianl_firstDB", "luojianl", "5197295829,./Ljl");
+			$dbh = new PDO("mysql:host=dev.fast.sheridanc.on.ca:3306;dbname=luojianl_firstDB", "luojianl", "5197295829,./Ljl");
 		} catch (Exception $e) {
 			error_log("Cannot connect to MySQL: $e\n", 3, "myErrors.log");
 			return false;
@@ -103,7 +103,7 @@
 	//a function to update data from blog page
 	public function updateScore($data,$user){
 			try {
-			$dbh = new PDO("mysql:host=localhost;dbname=luojianl_firstDB", "luojianl", "5197295829,./Ljl");
+			$dbh = new PDO("mysql:host=dev.fast.sheridanc.on.ca:3306;dbname=luojianl_firstDB", "luojianl", "5197295829,./Ljl");
 		} catch (Exception $e) {
 			error_log("Cannot connect to MySQL: $e\n", 3, "myErrors.log");
 			return false;
@@ -134,7 +134,7 @@
 	
 	public function updateSnakeScore($data,$user){
 			try {
-			$dbh = new PDO("mysql:host=localhost;dbname=luojianl_firstDB", "luojianl", "5197295829,./Ljl");
+			$dbh = new PDO("mysql:host=dev.fast.sheridanc.on.ca:3306;dbname=luojianl_firstDB", "luojianl", "5197295829,./Ljl");
 		} catch (Exception $e) {
 			error_log("Cannot connect to MySQL: $e\n", 3, "myErrors.log");
 			return false;
