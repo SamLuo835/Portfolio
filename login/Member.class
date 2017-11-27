@@ -1,0 +1,196 @@
+<?php
+/* Class name: 	Member
+ * Description: A class that creates a User for members-only web app.
+ * Cite:		PHP, MySQL, Javascript & HTML5 for Dummies, S.Suehring, J.Valade
+ */
+ class Member {
+	private $id;
+	private $firstName;
+	private $password;
+	private $address;
+	private $isLoggedIn = false;
+	private $gender;
+	private $lastName;
+	private $userName;
+	private $startDate;
+	private $blog;
+	private $userID;
+	/* 
+	 * Constructor: User passes in the name of the script where 
+	 * form data is to be sent ($actionValue) and the value to 
+	 * display on the submit button
+	 */
+	function __construct() {
+		if (session_id() == "") {
+			session_start();
+		}
+		$this->_initUser();
+	}
+	public function getBlog(){
+		return $this->blog;
+	}
+	/* 
+	 *	public function registerMember($safeUser)
+	 */
+	public function registerMember($fName,$lName,$secret,$date,$gender,$email,$safeUser) {
+		//connect to database
+		try {
+			$dbh = new PDO("mysql:host=localhost;dbname=luojianl_firstDB", "luojianl", "5197295829,./Ljl");
+		} catch (Exception $e) {
+			error_log("Cannot connect to MySQL: $e\n", 3, "myErrors.log");
+			return false;
+		}
+		// if not using UNIQUE in database, 
+		// ensure that the user does not exit already		
+		// otherwise, insert new record
+		$command = "INSERT INTO members ( player, secret, date, address, gender, firstName, lastName) 
+                VALUES ( '$safeUser','$secret','$date','$email','$gender','$fName','$lName')";	
+		if (! $result = $dbh->prepare($command)) {
+			error_log("Query does not appear to be correct: $safeUser\n", 3, "myErrors.log");
+			return false;
+		}
+		if (! $result->execute() ) {
+			error_log("User already exists. $safeUser\n", 3, "myErrors.log");
+			return false;
+		}	
+		$dbh = "";
+		return true;		
+	}		
+	/* 
+	 *	public function authenticate($user, $pass)
+	 */
+	public function authenticate($user, $pass) {
+		//connect to database
+		try {
+			$dbh = new PDO("mysql:host=localhost;dbname=luojianl_firstDB", "luojianl", "5197295829,./Ljl");
+		} catch (Exception $e) {
+			error_log("Cannot connect to MySQL: $e\n", 3, "myErrors.log");
+			return false;
+		}		
+		//retrieve user's record
+		$safeUser = $user;
+		$inPassword = sha1($pass);
+		$query = "SELECT * FROM members WHERE player='$safeUser'";
+		if (!$result = $dbh->prepare($query)) {
+			error_log("Cannot retrieve account for: $safeUser\n", 3, "myErrors.log");
+			return false;
+		}
+		//TODO compare userid and password
+		if ( $result->execute() ) {
+			$row = $result->fetch();		
+			$dbPassword = $row['secret'];			
+			if ($inPassword != $dbPassword) {
+				error_log("Passwords do not match. $safeUser\n", 3, "myErrors.log");
+				return false;				
+			}
+		}
+		//update this User properties from database
+		$this->userID=$row['id'];
+		$this->startDate=$row['date'];
+		$this->userName = $row['player'];
+		$this->firstName = $row['firstName'];
+		$this->password = $row['secret'];
+		$this->address = $row['address'];
+		$this->gender = $row['gender'];
+		$this->lastName = $row['lastName'];
+		$this->isLoggedIn = true;	
+		$this->blog=$row['blog'];
+		//update (set) current session info
+		$this->_setSession();
+		$dbh = "";
+		return true;
+	}	
+	//a function to update data from blog page
+	public function updateScore($data,$user){
+			try {
+			$dbh = new PDO("mysql:host=localhost;dbname=luojianl_firstDB", "luojianl", "5197295829,./Ljl");
+		} catch (Exception $e) {
+			error_log("Cannot connect to MySQL: $e\n", 3, "myErrors.log");
+			return false;
+		}
+		$command1="SELECT * FROM members WHERE player='$user'";
+		if (! $result = $dbh->prepare($command1)) {
+			error_log("Query does not appear to be correct: $data\n", 3, "myErrors.log");
+			return false;
+		}
+		if ( $result->execute() ) {
+			$row = $result->fetch();
+			if($row['tetrisScore']< $data){
+				$command = "UPDATE members SET tetrisScore='$data' WHERE player='$user'";
+				if (! $result = $dbh->prepare($command)) {
+					error_log("Query does not appear to be correct: $data\n", 3, "myErrors.log");
+					return false;
+				}
+				if (! $result->execute()) {
+					error_log("User already exists. $data\n", 3, "myErrors.log");
+					return false;
+				}
+			}
+		$dbh = "";
+		return true;
+		}
+	}
+	
+	
+	public function updateSnakeScore($data,$user){
+			try {
+			$dbh = new PDO("mysql:host=localhost;dbname=luojianl_firstDB", "luojianl", "5197295829,./Ljl");
+		} catch (Exception $e) {
+			error_log("Cannot connect to MySQL: $e\n", 3, "myErrors.log");
+			return false;
+		}
+		$command1="SELECT * FROM members WHERE player='$user'";
+		if (! $result = $dbh->prepare($command1)) {
+			error_log("Query does not appear to be correct: $data\n", 3, "myErrors.log");
+			return false;
+		}
+		if ( $result->execute() ) {
+			$row = $result->fetch();
+			if($row['snakeScore']< $data){
+				$command = "UPDATE members SET snakeScore='$data' WHERE player='$user'";
+				if (! $result = $dbh->prepare($command)) {
+					error_log("Query does not appear to be correct: $data\n", 3, "myErrors.log");
+					return false;
+				}
+				if (! $result->execute()) {
+					error_log("User already exists. $data\n", 3, "myErrors.log");
+					return false;
+				}
+			}
+		$dbh = "";
+		return true;
+		}
+	}
+	
+	/* 
+	 *	private function _initUser() called by the constructor
+	 */
+	private function _initUser() {
+		if (session_id() == '') {
+			session_start();
+		}		
+		$this -> id = $_SESSION['id'];
+		$this -> firstName = $_SESSION['firstName'];
+		$this -> password = $_SESSION['password'];
+		$this -> isLoggedIn = $_SESSION['isLoggedIn'];
+		$this -> address = $_SESSION['address'];
+	}
+	/* 
+	 *	public function _setSession() called from authenticate() function
+	 */
+	private function _setSession() {
+		//TODO
+		$_SESSION['id'] = $this->id;
+		$_SESSION['firstName'] = $this->firstName;
+		$_SESSION['password'] = $this->password;
+		$_SESSION['isLoggedIn'] = $this->isLoggedIn;
+		$_SESSION['address'] = $this->address;
+		$_SESSION['gender'] = $this->gender;
+		$_SESSION['lastName'] = $this->lastName;
+		$_SESSION['userName'] = $this->userName;
+		$_SESSION['startDate'] = $this->startDate;
+		$_SESSION['userID']=$this->userID;
+		$_SESSION['blog']=$this->blog;
+	}	
+ } // end class Member
+ ?>

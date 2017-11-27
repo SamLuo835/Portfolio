@@ -1,0 +1,474 @@
+
+<html lang="en">
+<head>
+  <title>Ultimate Tic Tac Toe</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.js"></script>
+  <script src="../../../lib/codemirror.js"></script>
+  <link rel="stylesheet" href="../../../lib/codemirror.css">
+   <script src="../../../addon/active-line.js"></script>
+   <script src="../../../mode/javascript.js"></script>
+   <script src="script/ultimate.js"></script>
+  <style>
+  .h2margin{margin-top:-30px; margin-bottom:30px}
+  .jumbotron p{ margin:10px} 
+  .btn{margin:5px;}
+  .jumbotron{background-color:white;}
+  .navbar-inverse .navbar-nav .active a, .navbar-inverse .navbar-nav .active a:focus
+		, .navbar-inverse .navbar-nav .active a:hover{
+		background-color:#222;
+		color:#FFF;
+		
+		}
+  td {
+	width:50px;
+	height:50px;
+	text-align: center;
+	border:1px double darkblue; 
+	border-radius:3px;
+	}
+  .popup{
+			width:100%;
+			position: relative;
+			display: inline-block;
+		}
+		.popuptext {
+			visibility:hidden;
+			width:50%;
+			height:200px;
+			background-color: lightblue;
+			color: black;
+			text-align: center;
+			border-radius:6px;
+			position:absolute;
+			left:25%;
+			top:20%;
+			z-index:1;
+			font-family:Monospace;
+			font-size:100%;
+		}
+		.show{
+			visibility: visible;
+		}
+	
+		td:active{
+			background-color:lightblue!important;
+			}
+		table img{
+			width:50%;
+			height:50%;
+			}
+		p{
+			margin:auto;
+			text-align:center;
+			font-size:150%;
+		}
+/*give some padding space to the content in table*/
+		table {
+			text-align:center;
+			width:32%;
+			margin: 0;
+		}  
+		
+/*class material SYST10049 Web Development Winter 2017*/
+		tr:first-child td {
+			border-top: none;
+		}
+		tr:last-child td {
+			border-bottom: none;
+		}
+		td:first-child {
+			border-left: none;
+		}
+		td:last-child {
+			border-right: none;
+		}
+		footer {
+			font-size:1.0em;
+			text-align:center;
+			}
+	.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+	.description{font-size:1.5em}
+	
+	.navbar{
+		margin-bottom:0;
+		border-radius:0;
+		}
+	.navbar-brand{
+	float:left;
+	min-height:55px;
+	padding:1px 15px 15px;
+	}
+	footer{
+	width:100%;
+	background-color:black;
+	margin-top:5px;
+	padding:5%;
+	color:white;
+	}
+	.wrapper{
+	display:flex;
+	flex-direction:row;
+	justify-content:center;
+	flex-wrap:wrap;
+	}
+	.fa{
+		padding:15px;
+		font-size:25px;
+		color:white;
+	}
+	.fa:hover{
+		color:#D5D5D5;
+		text-decoration:none;
+	}
+	@media (max-width:900px){
+	.fa{
+		font-size:20px;
+		padding:10px;
+		}
+	}
+	@media (max-width:600px){
+		.btn{width:50%;}
+  </style>
+</head>
+<body onload="createBoard()">
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href=""><img src="../../../images/s.png"></a>
+		</div>
+		<div id="myNavbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li class=active><a href="../../index.php">Home</a></li>
+					<li><a href="../tetris/index.php">Tetris</a></li>
+					<li><a href="../jsuttt/index.html">Ultimate TicTacToe</a></li>
+					<li><a href="../jsSnake/index.php">Snake Game</a></li>
+					<li><a href="../movieSearching/index.html">Movie Searching</a></li>
+					<li><a href="../GeneticAlgorithm/index.html">Genetic </a></li>
+				</ul>
+		</div>
+	</div>
+</nav>
+<div class="container ">
+<h1 class="text-center">Ultimate Tic Tac Toe</h2>
+<div class"row">
+<div class="jumbotron col-sm-12 col-md-12 col-lg-12 wrapper" id="game">
+<div class="popup"><span class="popuptext" id="myPopup" onclick="myFun()"></span>
+	</div>
+</div> 
+ </div>
+ </div>
+ <div class="container ">
+ <h2 class="text-center h2margin">About The Game</h2>
+ <div class="row">
+ <div class="col-sm-12 col-md-6 col-lg-6">
+ <p class="description">Written in pure JavaScript.Ultimate tic-tac-toe also known as super tic-tac-toe or
+ meta tic-tac-toe is a board game composed of nine tic-tac-toe boards arranged in a 3-by-3 grid.
+ Players take turns playing in the smaller tic-tac-toe boards until one of them wins in the larger tic-tac-toe board. Strategy in this game is much more conceptually difficult, and has proven more challenging for computers.
+ </p>
+ 
+ </div>
+ <div class="col-sm-12 col-md-6 col-lg-6">
+ <form><textarea id="code">		
+ 
+ //the 3 dimensional array keep track of each boards winnning combo, 9 boards, each borad has 8 winning combo, each combo has 3 elements
+		var wincombo= [[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]],[[],[],[],[],[],[],[],[]]];
+
+		for (var i=0;i<=8;i++){
+		wincombo[i][0]=[document.getElementsByClassName("1"),document.getElementsByClassName("2"),document.getElementsByClassName("3")];
+		wincombo[i][1]=[document.getElementsByClassName("4"),document.getElementsByClassName("5"),document.getElementsByClassName("6")];
+		wincombo[i][2]=[document.getElementsByClassName("7"),document.getElementsByClassName("8"),document.getElementsByClassName("9")];
+		wincombo[i][3]=[document.getElementsByClassName("1"),document.getElementsByClassName("4"),document.getElementsByClassName("7")];
+		wincombo[i][4]=[document.getElementsByClassName("2"),document.getElementsByClassName("5"),document.getElementsByClassName("8")];
+		wincombo[i][5]=[document.getElementsByClassName("3"),document.getElementsByClassName("6"),document.getElementsByClassName("9")];
+		wincombo[i][6]=[document.getElementsByClassName("1"),document.getElementsByClassName("5"),document.getElementsByClassName("9")];
+		wincombo[i][7]=[document.getElementsByClassName("3"),document.getElementsByClassName("5"),document.getElementsByClassName("7")];
+		}
+	// a boolean var to keep track of the big board's result	
+	var gameover=false;
+	//a boolean array to distinguish between a tie game and a player wins when all the cells are filled in 9 small boards. 
+	var done=[];
+	for (var i=0;i<=8;i++){
+		done[i]=false;
+	}
+	//a var for player name , change over turns.
+	var player="X";
+	//a counter array to keep track of cells filled only in 9 small board
+	var counter=[];
+	for(var i=0;i<=8;i++){
+		counter[i]=1;
+	}
+	// a counter to help finding player's turn
+	var boardcounter=1;
+	
+	//a boolean array to check the 9 small borads game result
+	var finishGame=[];
+	for (var i=0;i<=8;i++){
+		finishGame[i]=false;
+	}
+	// a function for the button to reset or start the game, reset all the var above, also change the button and table styles etc,
+	function Start(){
+		gameover=false;
+		for(var i=0;i<=8;i++){
+		counter[i]=1;
+		}
+		boardcounter=1;
+		for (var i=0;i<=8;i++){
+		done[i]=false;
+		}
+		for (var i=0;i<=8;i++){
+		finishGame[i]=false;
+		}
+		player="X";
+		document.getElementById("msg").innerHTML="player <span id='player'></span>  go! ";
+		for (var x=0;x<=8;x++){
+			document.getElementById(x).setAttribute("style","false");
+		}
+		for (var x=0;x<=80;x++){
+			document.getElementsByTagName("td")[x].innerHTML="";
+			document.getElementsByTagName("td")[x].style.color="darkblue";
+			}
+		document.getElementById("player").innerHTML=player;
+		document.getElementsByTagName("button")[2].innerHTML="Reset game";
+		}		
+		
+	//the run() function is called when a player click on a cell
+	function run(){
+		console.log("ho");
+	//a two dimensional array to keep track of the big board's winning combo
+			var boardcombo=[[],[],[],[],[],[],[],[]];
+			boardcombo[0]=[document.getElementById("0"),document.getElementById("1"),document.getElementById("2")];
+			boardcombo[1]=[document.getElementById("3"),document.getElementById("4"),document.getElementById("5")];
+			boardcombo[2]=[document.getElementById("6"),document.getElementById("7"),document.getElementById("8")];
+			boardcombo[3]=[document.getElementById("0"),document.getElementById("3"),document.getElementById("6")];
+			boardcombo[4]=[document.getElementById("1"),document.getElementById("4"),document.getElementById("7")];
+			boardcombo[5]=[document.getElementById("2"),document.getElementById("5"),document.getElementById("8")];
+			boardcombo[6]=[document.getElementById("0"),document.getElementById("4"),document.getElementById("8")];
+			boardcombo[7]=[document.getElementById("2"),document.getElementById("4"),document.getElementById("6")];
+	//get the event element, which is a td tag, and then look for its parent's parent,the table element
+			var targetId=event.target.parentElement.parentElement;
+	//the  run() function only runs if the table cell is empty, the small board game is not finished,the popup is not shown and the big board game is not finished.
+			if (!finishGame[targetId.id] && event.target.innerHTML==("")&&(document.getElementById("myPopup").getAttribute("class")=="popuptext")&&!gameover){
+	//determine which player's turn by checking the remainder of counter,then change the cell picture to
+	//cross or circle,
+			if (boardcounter%2==1){
+				player="O";
+				event.target.innerHTML="X";
+				document.getElementById("player").innerHTML=player;
+				counter[targetId.id]++;
+				boardcounter++;
+			}
+			else{
+				player="X";
+				event.target.innerHTML="O";
+				document.getElementById("player").innerHTML=player;
+				counter[targetId.id]++;
+				boardcounter++;
+			}
+			//a loop checking  small boards winner 
+			for (var i=0;i<8;i++){
+				//checking if X wins first
+				if(wincombo[targetId.id][i][0][targetId.id].innerHTML==("X")&&wincombo[targetId.id][i][1][targetId.id].innerHTML==("X")&&wincombo[targetId.id][i][2][targetId.id].innerHTML==("X")){
+					if (counter[targetId.id]==10){
+					done[targetId.id]=true;
+					for(var k=0;k<=2;k++){
+							wincombo[targetId.id][i][k][targetId.id].style.color="grey";
+					}
+					document.getElementById(targetId.id).style.backgroundImage="url('images/cross.png')";
+					document.getElementById(targetId.id).style.backgroundRepeat="no-repeat";
+					document.getElementById(targetId.id).style.backgroundSize="contain";
+					document.getElementById(targetId.id).style.backgroundPosition="center";
+					}
+					else{
+						done[targetId.id]=true;
+						finishGame[targetId.id]=true;
+						document.getElementById(targetId.id).style.backgroundImage="url('images/cross.png')";
+						document.getElementById(targetId.id).style.backgroundRepeat="no-repeat";
+						document.getElementById(targetId.id).style.backgroundSize="contain";
+						document.getElementById(targetId.id).style.backgroundPosition="center";
+						for(var k=0;k<=2;k++){
+							wincombo[targetId.id][i][k][targetId.id].style.color="grey";
+						}	
+					}
+				}
+				//chekcing  if O wins second
+				if(wincombo[targetId.id][i][0][targetId.id].innerHTML==("O")&&wincombo[targetId.id][i][1][targetId.id].innerHTML==("O")&&wincombo[targetId.id][i][2][targetId.id].innerHTML==("O")){
+					if (counter[targetId.id]==10){
+					done[targetId.id]=true;
+					document.getElementById(targetId.id).style.backgroundImage="url('images/circle.png')";
+					document.getElementById(targetId.id).style.backgroundRepeat="no-repeat";
+					document.getElementById(targetId.id).style.backgroundSize="contain";
+					document.getElementById(targetId.id).style.backgroundPosition="center";
+					for(var k=0;k<=2;k++){
+						wincombo[targetId.id][i][k][targetId.id].style.color="grey";
+						}
+					}
+					else{
+					done[targetId.id]=true;
+					finishGame[targetId.id]=true;
+					document.getElementById(targetId.id).style.backgroundImage="url('images/circle.png')";
+					document.getElementById(targetId.id).style.backgroundRepeat="no-repeat";
+					document.getElementById(targetId.id).style.backgroundSize="contain";
+					document.getElementById(targetId.id).style.backgroundPosition="center";
+					for(var k=0;k<=2;k++){
+						wincombo[targetId.id][i][k][targetId.id].style.color="grey";
+						}
+					}
+				}
+			}
+			//when all the cells are filled in a small board  but no one wins.
+			if (!done[targetId.id]&&(counter[targetId.id]==10)){
+				document.getElementById(targetId.id).style.backgroundImage="url('images/hyphen.png')";
+				document.getElementById(targetId.id).style.backgroundRepeat="no-repeat";
+				document.getElementById(targetId.id).style.backgroundSize="contain";
+				document.getElementById(targetId.id).style.backgroundPosition="center";
+			}
+			//a for loop to check if the big board has a result
+			for (var k=0;k<=7;k++){
+				if(boardcombo[k][0].getAttribute("style").match("cross")&&boardcombo[k][1].getAttribute("style").match("cross")&&boardcombo[k][2].getAttribute("style").match("cross")){
+					document.getElementById("msg").innerHTML="Player X wins";
+					for(var j=0;j<=2;j++){
+						boardcombo[k][j].style.backgroundColor="lightblue";
+					}
+					gameover=true;
+				}
+				if(boardcombo[k][0].getAttribute("style").match("circle")&&boardcombo[k][1].getAttribute("style").match("circle")&&boardcombo[k][2].getAttribute("style").match("circle")){
+					document.getElementById("msg").innerHTML="Player O wins";
+					gameover=true;
+					for(var j=0;j<=2;j++){
+						boardcombo[k][j].style.backgroundColor="lightblue";
+					}
+					
+				}
+			}
+			//checking if the big board is a tie game
+			if(!gameover&&(document.getElementById("0").getAttribute("style").match("background"))&&(document.getElementById("1").getAttribute("style").match("background"))&&(document.getElementById("2").getAttribute("style").match("background"))&&(document.getElementById("3").getAttribute("style").match("background"))&&(document.getElementById("4").getAttribute("style").match("background"))&&(document.getElementById("5").getAttribute("style").match("background"))&&(document.getElementById("6").getAttribute("style").match("background"))&&(document.getElementById("7").getAttribute("style").match("background"))&&(document.getElementById("8").getAttribute("style").match("background"))){
+				document.getElementById("msg").innerHTML="No One Wins";
+			}
+		}
+	}
+		//material from the prof, create 9 tables, the buttons, the headding ,
+		function createBoard() {
+			
+            // MOVED declarations inside the function - used only here
+            var myTable, myRow, myCell, myData, myBoard, myTitle;
+			myTable=[];
+			for (var i=0;i<=8;i++){
+				myTable[i]=document.createElement("table");
+				myTable[i].setAttribute('id',i)
+				}
+            var gameTitle = ["T", "I", "C", "T", "A", "C", "T", "O", "E"];
+            myBoard = document.getElementById("game");
+			for(var i=0;i<=8;i++){
+				myBoard.appendChild(myTable[i])
+				}
+			for(var k=0;k<=8;k++){
+				for (var i = 0; i < 3; i++) {
+					myRow = document.createElement("tr");
+					myTable[k].appendChild(myRow);
+					for (var j = 0; j < 3; j++) {
+						myCell = document.createElement("td");
+						myRow.appendChild(myCell);
+						myData = document.createTextNode(gameTitle[j + (i * 3)]);
+						myCell.setAttribute("class",(j+1+(i*3)));
+						myCell.setAttribute("onclick","run()");
+						myCell.appendChild(myData);
+					}
+				}
+			}
+            var par = myBoard.appendChild(document.createElement("p"));
+            var elSpanMsg = document.createElement("span");
+            elSpanMsg.setAttribute("id", "msg");
+            elSpanMsg.style.fontFamily = "monospace";
+            elSpanMsg.appendChild(document.createTextNode("Player "));
+            var elSpan = document.createElement("span");
+            elSpan.setAttribute("id", "player");
+            elSpanMsg.appendChild(elSpan);
+            elSpanMsg.appendChild(document.createTextNode(""));
+            elSpanMsg.appendChild(document.createTextNode(" go! "));
+            par.appendChild(elSpanMsg);
+            var elButton = document.createElement("button");
+			var secButton=document.createElement("button");
+			elButton.setAttribute("onclick","Start()")
+			secButton.appendChild(document.createTextNode("Stat"));
+			secButton.setAttribute("onclick","score()");
+			secButton.setAttribute("class","btn");
+			par.appendChild(secButton);
+            elButton.appendChild(document.createTextNode(
+                "New game"));
+            elButton.setAttribute("id", "reset");
+			elButton.setAttribute("class","btn");
+            par.appendChild(elButton);
+    }
+	//a function to switch the pop up text class, to make the pop up invisble or visible
+	function myFun(){
+		var pop=document.getElementById("myPopup");
+			pop.classList.toggle("show");
+		}
+	// a function score , called when the stat button is click, shows the small boards results
+	function score(){
+		var xWins=0;
+		var oWins=0;
+		var ties=0;
+		for(var i=0;i<=8;i++){
+			if (document.getElementById(i).getAttribute("style").match("cross")){
+					xWins++;
+				}
+				
+			if(document.getElementById(i).getAttribute("style").match("circle")){
+					oWins++;
+				}
+			
+			if(document.getElementById(i).getAttribute("style").match("hyphen")){
+				ties++;
+			}
+		}
+		myFun();
+		document.getElementById("myPopup").innerHTML="<p>Number of boards X wins:&nbsp;</p>"+Math.floor(xWins) +"<br><p> Number of boards O wins:&nbsp;</p>"+Math.floor(oWins)+"<p>tie boards:&nbsp;</p>"+Math.floor(ties)+"<br><p> click me to dimiss</p><br>";
+	}
+	
+ </textarea></form>
+ </div>
+ </div>
+ </div>
+ <footer class="container-fluid text-center">
+ <div class="row">
+ <div class="col-sm-6 col-md-6 col-lg-6 col-xsm-6">
+	<h3>Contact Me</h3>
+	<br>
+	<h4>samlaw829@gmail.com</h4>
+ </div>
+ <div class="col-sm-6 col-md-6 col-lg-6 col-xsm-6">
+	<h3>Connect</h3>
+	<a href="#" class="fa fa-facebook"></a>
+	<a href="#" class="fa fa-google"></a>
+	<a href="#" class="fa fa-linkedin"></a>
+	<a href="#" class="fa fa-twitter"></a>
+ </div>
+ </div>
+ <div class=row>
+<div>
+<br>
+Sam @ 2017
+ </div>
+ </footer>
+  <script>
+var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+  mode: "javascript",
+  styleActiveLine: true,
+  lineNumbers: true,
+});
+</script>
+</body>
+</html>

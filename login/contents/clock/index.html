@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Clock Design</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="script/sketch.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.js"></script>
+  <script src="../../../lib/codemirror.js"></script>
+  <link rel="stylesheet" href="../../../lib/codemirror.css">
+   <script src="../../../addon/active-line.js"></script>
+   <script src="../../../mode/javascript.js"></script>
+  <style>
+	.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+	.description{font-size:2.0em}
+	.centering{display:flex;justify-content:center;}
+	.navbar{
+		margin-bottom:0;
+		border-radius:0;
+		}
+	.navbar-brand{
+	float:left;
+	min-height:55px;
+	padding:1px 15px 15px;
+	}
+	.navbar-inverse .navbar-nav .active a, .navbar-inverse .navbar-nav .active a:focus
+		, .navbar-inverse .navbar-nav .active a:hover{
+		background-color:#222;
+		color:#FFF;
+		
+		}
+	footer{
+	width:100%;
+	background-color:black;
+	margin-top:5px;
+	padding:5%;
+	color:white;
+	}
+	.fa{
+		padding:15px;
+		font-size:25px;
+		color:white;
+	}
+	.fa:hover{
+		color:#D5D5D5;
+		text-decoration:none;
+	}
+	@media (max-width:900px){
+	.fa{
+		font-size:20px;
+		padding:10px;
+		}
+	}
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href=""><img src="../../../images/s.png"></a>
+		</div>
+		<div id="myNavbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li class=active><a href="../../index.php">Home</a></li>
+					<li><a href="../tetris/index.php">Tetris</a></li>
+					<li><a href="../jsuttt/index.html">Ultimate TicTacToe</a></li>
+					<li><a href="../jsSnake/index.php">Snake Game</a></li>
+					<li><a href="../movieSearching/index.html">Movie Searching</a></li>
+					<li><a href="../GeneticAlgorithm/index.html">Genetic </a></li>
+				</ul>
+		</div>
+	</div>
+</nav>
+<div class="container ">
+<h1 class="text-center">Clock Design</h2>
+<div class"row">
+<div class="jumbotron col-sm-12 col-md-6 col-lg-6 centering" id="clock">
+</div> 
+<div class="jumbotron col-sm-12 col-md-6 col-lg-6" >
+<form><textarea id="code">function setup(){
+		var canvas=createCanvas(300,300);
+		canvas.parent("clock");
+		angleMode(DEGREES);	
+}
+function draw(){
+	background(0);
+	translate(152,152);
+	let hr=hour();
+	let mn=minute();
+	let sc=second();
+	rotate(-90);
+	
+	
+	strokeWeight(6);
+	stroke(255);
+	noFill();
+	let end1= map(sc,0,60,0,360);
+	arc(0,0,280,280,0,end1);
+	
+	push();
+	rotate(end1);
+	stroke(255);
+	line(0,0,100,0);
+	pop();
+	
+	stroke(150,200,255);
+	let end2=map(mn,0,60,0,360);
+	arc(0,0,260,260,0,end2);
+	
+	push();
+	rotate(end2);
+	stroke(150,200,255);
+	line(0,0,80,0);
+	pop();
+	
+	stroke(200,0,255);
+	let end3=map(hr%12,0,12,0,360);
+	arc(0,0,240,240,0,end3);
+	
+	push();
+	rotate(end3);
+	stroke(200,0,255);
+	line(0,0,60,0);
+	pop();
+	
+	stroke(255);
+	point(0,0);
+	
+	push();
+	translate(100,0);
+	rotate(90);
+	textSize(18);
+	fill(0, 102, 153);
+	text("1 2",-13,3);
+	pop();
+	
+	push();
+	translate(0,100);
+	rotate(90);
+	textSize(18);
+	fill(0, 102, 153);
+	text("3",0,5);
+	pop();
+	
+	push();
+	translate(-100,0);
+	rotate(90);
+	textSize(18);
+	fill(0, 102, 153);
+	text("6",-4,8);
+	pop();
+	
+	push();
+	translate(0,-100);
+	rotate(90);
+	textSize(18);
+	fill(0, 102, 153);
+	text("9",-9,5);
+	pop();
+}
+</textarea>
+</form>
+</div> 
+ </div>
+ </div>
+ <div class="container text-center">
+ <h2>About the design</h2>
+ <div class="row">
+ <div class="col-sm-12 col-md-6 col-lg-6">
+ <p class="description">Inspired by a photo, it's an experiment based on the p5js's time and date functions.
+ This JavaScript library is powerful with visual designs, the weakness is there are not enough 
+ supports online, and the reference page is not intuitive to read.
+ </p>
+ 
+ </p>
+ </div>
+ <div class="col-sm-12 col-md-6 col-lg-6">
+ <img src="../../../images/01.jpg" class="img-responsive">
+ </div>
+ </div>
+ </div>
+ <footer class="container-fluid text-center">
+ <div class="row">
+ <div class="col-sm-6 col-md-6 col-lg-6 col-xsm-6">
+	<h3>Contact Me</h3>
+	<br>
+	<h4>samlaw829@gmail.com</h4>
+ </div>
+ <div class="col-sm-6 col-md-6 col-lg-6 col-xsm-6">
+	<h3>Connect</h3>
+	<a href="#" class="fa fa-facebook"></a>
+	<a href="#" class="fa fa-google"></a>
+	<a href="#" class="fa fa-linkedin"></a>
+	<a href="#" class="fa fa-twitter"></a>
+ </div>
+ </div>
+ <div class=row>
+<div>
+<br>
+Sam @ 2017
+ </div>
+ </footer>
+  <script>
+var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+  mode: "javascript",
+  styleActiveLine: true,
+  lineNumbers: true,
+ 
+});
+</script>
+</body>
+</html>

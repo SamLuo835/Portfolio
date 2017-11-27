@@ -1,0 +1,169 @@
+	html{
+	font-family:sans-serif;
+	height:100%;
+	background-color:black;
+	}
+	/*display the children of the body's
+	as flex box item, deirection is column*/
+	body{
+	display:flex;
+	flex-direction:column;
+	min-height:100%;
+	}
+	h2{
+	text-align:center;
+	color:lightgrey;
+	}
+	main{
+	background-color:lightgray;
+	margin:0 auto 10px auto;
+	width:50%;
+	height:70%;
+	}
+	.wrapper1{
+	height:90%;
+	background-color:lightgrey;
+	}
+	.turn p{
+		padding:20px 0 0 0;
+		font-style:italic;
+	}
+	.imgwrapper {
+		display:flex;
+		justify-content:center;
+	}
+	.imgwrapper img{
+		height:40%;
+		margin:auto 16% auto 16%;
+	}
+	.player{
+		display:flex;
+		justify-content:center;
+		height:5%;
+		margin:20px 0 0 0;
+	}
+	.player h4{
+		width:50%;
+		text-align:center;
+	}
+	.turn{
+	height:5%;
+	text-align:center;
+	font-size:1.4em;
+	}
+	.imgwrapper{
+	height:55%;
+	}
+	form{
+	text-align:center;
+	margin:0 0 10px 0;
+	color:#6f6f6f;
+	height:20%;
+	}
+	.selection{
+		height:100%;
+	}
+	select{
+		width:100%;
+		height:60%;
+		text-align-last:center;
+		font-size:1.2em;
+	}
+	form input{
+		width:100%;
+		height:40%;
+		background-color:#6f6f6f;
+		color:white;
+	}
+	h4{
+		color:grey;
+	}
+	
+	.wrapper1>button{
+	width:100%;
+	height:8%;
+	margin:2px 0 2px 0;
+	background-color:#6f6f6f;
+	color:white;
+	}
+	.wrapper2{
+	height:10%;
+	margin:5px 0 5px 0;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	background-color:black;
+	}
+	.wrapper1 button:active , .wrapper2 button:active{
+	background-color:#c2c2c2;
+	color:#818181;
+	}
+	.wrapper2 button{
+	margin:5px;
+	background-color:#6f6f6f;
+	color:white;
+	height:25px;
+	}
+
+	footer{
+	margin:10px 0 10px 0;
+	text-align:center;
+	color:lightgrey
+	}
+/*rules for media query*/
+/*rules for small screen devices (phones)*/
+	@media screen and (max-width: 480px) {
+/*rearrage the order of main, h2, and footer */
+	main{
+	width:100%;
+	height:80%;
+	order:1;
+	}
+	h2{
+	order:2;
+	font-size:0.8em;
+	}
+	footer{
+	order:3;
+	}
+	}
+/* rules for small screen lanscape oreientation*/
+	@media screen and (max-height:480px) and (orientation: landscape) {
+/* add a felx display property to main and change the flex direction
+ of main to row, so that the wrapper 1 and wrapper 2 will be align
+ horizontally*/
+	main{
+	display:flex;
+	flex-direction:row;
+	width:100%;
+	order:1;
+	height:80%;
+	}
+	
+	.wrapper1{
+	flex-grow:3;
+	}
+	.wrapper2{
+		margin:0;
+		height:100%;
+	display:flex;
+	align-items:flex-start;
+	}
+	.wrapper2 h4{margin:0;}
+	/* flex wrap make the flex items wrap to a new row*/
+	body{
+	flex-direction:row;
+	flex-wrap:wrap;
+	}
+
+	h2{
+	width:75%;
+	order:2;
+	}
+	footer{
+	font-size:0.8em;
+	order:3;
+	width:25%;
+	vertical-align:center;
+	}
+	}

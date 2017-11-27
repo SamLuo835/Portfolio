@@ -1,0 +1,19 @@
+[19-Nov-2017 14:33:39 America/Toronto] PHP Parse error:  syntax error, unexpected ';' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 123
+[19-Nov-2017 14:35:24 America/Toronto] PHP Parse error:  syntax error, unexpected '=' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 125
+[19-Nov-2017 14:35:36 America/Toronto] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'score' in 'order clause'' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php:114
+Stack trace:
+#0 /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php(114): PDOStatement->execute()
+#1 {main}
+  thrown in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 114
+[19-Nov-2017 14:43:16 America/Toronto] PHP Fatal error:  Call to a member function prepare() on null in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 110
+[19-Nov-2017 14:52:33 America/Toronto] PHP Parse error:  syntax error, unexpected ';' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 114
+[19-Nov-2017 15:27:26 America/Toronto] PHP Parse error:  syntax error, unexpected '{' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 348
+[19-Nov-2017 15:28:14 America/Toronto] PHP Parse error:  syntax error, unexpected 'document' (T_STRING) in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 349
+[19-Nov-2017 15:31:41 America/Toronto] PHP Parse error:  syntax error, unexpected '?>' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 347
+[19-Nov-2017 15:43:25 America/Toronto] PHP Parse error:  syntax error, unexpected '>' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 140
+[19-Nov-2017 18:51:44 America/Toronto] PHP Parse error:  syntax error, unexpected 'restart' (T_STRING), expecting ',' or ';' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 136
+[19-Nov-2017 18:52:04 America/Toronto] PHP Parse error:  syntax error, unexpected 'restart' (T_STRING), expecting ',' or ';' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 136
+[19-Nov-2017 18:52:07 America/Toronto] PHP Parse error:  syntax error, unexpected 'restart' (T_STRING), expecting ',' or ';' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 136
+[19-Nov-2017 18:52:07 America/Toronto] PHP Parse error:  syntax error, unexpected 'restart' (T_STRING), expecting ',' or ';' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 136
+[19-Nov-2017 18:56:36 America/Toronto] PHP Parse error:  syntax error, unexpected '<' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 93
+[19-Nov-2017 19:16:07 America/Toronto] PHP Parse error:  syntax error, unexpected '/' in /home/luojianl/public_html/syst10199/assign7/login/contents/tetris/index.php on line 138

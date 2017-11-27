@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Genetic Alogorithm</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.js"></script>
+  <script src="../../../lib/codemirror.js"></script>
+  <link rel="stylesheet" href="../../../lib/codemirror.css">
+   <script src="../../../addon/active-line.js"></script>
+   <script src="../../../mode/javascript.js"></script>
+   <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
+  <!-- uncomment lines below to include extra p5 libraries -->
+  <script language="javascript" src="libraries/p5.dom.js"></script>
+  <script language="javascript" type="text/javascript" src="dna.js"></script>
+  <script language="javascript" type="text/javascript" src="population.js"></script>
+  <script language="javascript" type="text/javascript" src="rocket.js"></script>
+  <script language="javascript" type="text/javascript" src="sketch.js"></script>
+  <style>
+	#last{margin-top:30px;}
+	.needSpace{margin-top:60px;}
+	.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+	.description{font-size:2.0em}
+	.centering{display:flex;justify-content:center;}
+	.navbar{
+		margin-bottom:0;
+		border-radius:0;
+		}
+	.navbar-brand{
+	float:left;
+	min-height:55px;
+	padding:1px 15px 15px;
+	}
+	.navbar-inverse .navbar-nav .active a, .navbar-inverse .navbar-nav .active a:focus
+		, .navbar-inverse .navbar-nav .active a:hover{
+		background-color:#222;
+		color:#FFF;
+		
+		}
+	footer{
+	width:100%;
+	background-color:black;
+	margin-top:10px;
+	padding:5%;
+	color:white;
+	}
+	.fa{
+		padding:15px;
+		font-size:25px;
+		color:white;
+	}
+	.fa:hover{
+		color:#D5D5D5;
+		text-decoration:none;
+	}
+	@media (max-width:900px){
+	.fa{
+		font-size:20px;
+		padding:10px;
+		}
+	}
+	@media(max-width:600px){
+		#defaultCanvas1{
+			max-width: 300px;
+			max-height: 163px;
+		}
+	}
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href=""><img src="../../../images/s.png"></a>
+		</div>
+		<div id="myNavbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li class=active><a href="../../index.php">Home</a></li>
+					<li><a href="../tetris/index.php">Tetris</a></li>
+					<li><a href="../jsuttt/index.html">Ultimate TicTacToe</a></li>
+					<li><a href="../jsSnake/index.php">Snake Game</a></li>
+					<li><a href="../movieSearching/index.html">Movie Searching</a></li>
+					<li><a href="../GeneticAlgorithm/index.html">Genetic </a></li>
+				</ul>
+		</div>
+	</div>
+</nav>
+<div class="container ">
+<h1 class="text-center">Genetic Alogorithm</h2>
+<div class"row">
+<div class="jumbotron col-sm-12 col-md-8 col-lg-8 centering" id="canva">
+
+</div> 
+<div class="jumbotron col-sm-12 col-md-4 col-lg-4 text-center" >
+<h4>Click on the canvas to place walls</h4>
+<br>
+<div class="btn-group btn-group-md" role="group">
+<button type="button" id='noline'class="btn btn-default" value="No Line">No Line</button>
+<button type="button" id='drawline'class="btn btn-default" value="Draw Line">Dwaw Line</button>	 
+</div>
+<br>
+<br>
+<h4>Select Sample Size</h4>
+<div class="btn-group btn-group-md" role="group">
+<button type="button" id='pop10'class="btn btn-default" value="10">10</button>
+<button type="button" id='pop25'class="btn btn-default" value="25">25</button> 
+<button type="button" id='pop50'class="btn btn-default" value="50">50</button>
+</div>
+<br><h4>Frames: <span id="frames"></span></h4>
+<br>
+<h4>Generation: <span id="gen"></span></h4>
+</div>
+ </div>
+ </div>
+ <div class="container ">
+ <h2 class="text-center">The Model</h2>
+ <div class="row">
+ <div class="col-sm-12 col-md-6 col-lg-4 needSpace">
+ <h4 class="text-center ">Class for Rocket Object</h4>
+ <form><textarea id="code1">
+
+// Constructor function
+function Rocket(dna) {
+  this.locations=[];
+  var rightWall;
+  var leftWall;
+  // Physics of rocket at current instance
+  this.pos = createVector(0, height/2);
+  this.vel = createVector();
+  this.acc = createVector();
+  // Checkes rocket has reached target
+  this.completed = false;
+  // Checks if rocket had crashed
+  this.crashed = false;
+  this.hitWall=false;
+  // Gives a rocket dna
+  if (dna) {
+    this.dna = dna;
+  } else {
+    this.dna = new DNA();
+  }
+  this.fitness = 0;
+
+  // Object can recieve force and add to acceleration
+  this.applyForce = function(force) {
+    this.acc.add(force);
+  }
+  // Calulates fitness of rocket
+  this.calcFitness = function() {
+    // Takes distance to target
+    var d = dist(this.pos.x, this.pos.y, target.x, target.y);
+
+    // Maps range of fitness
+    this.fitness = map(d, 0, width, width, 0);
+	this.fitness=pow(this.fitness,2);
+    // If rocket gets to target increase fitness of rocket
+    if (this.completed) {
+      this.fitness = pow(this.fitness,2);
+    }
+    // If rocket does not get to target decrease fitness
+    if (this.crashed) {
+      this.fitness /= 100;
+    }
+	if(leftWall){this.fitness/=100};
+	if(rightWall){this.fitness*=100;}
+
+  }
+  // Updates state of rocket
+  this.update = function(array) {
+	rightWall=false;
+	leftWall=false;
+    // Checks distance from rocket to target
+    var d = dist(this.pos.x, this.pos.y, target.x, target.y);
+    // If distance less than 10 pixels, then it has reached target
+    if (d < 10) {
+      this.completed = true;
+      this.pos = target.copy();
+    }
+    // Rocket hit the wall
+   
+	for(var i=0; i< array.length;i++){
+		if (this.pos.x>array[i].x && this.pos.x< array[i].x+10 && this.pos.y>array[i].y && this.pos.y < array[i].y+120){
+			this.crashed=true;
+			this.hitWall=true;
+			break;
+		}
+	}
+    // Rocket has hit left  of window
+    if (this.pos.x < 0) {
+      this.crashed = true;
+	  leftWall=true;
+    }
+	//hit the right wall(bonus of fitness)
+	if(this.pos.x>width){
+	  rightWall=true;
+	}
+    // Rocket has hit top or bottom of window
+    if (this.pos.y > height || this.pos.y < 0) {
+      this.crashed = true;
+    }
+	
+	
+    //applies the random vectors defined in dna to consecutive frames of rocket
+    this.applyForce(this.dna.genes[count]);
+    // if rocket has not got to goal and not crashed then update physics engine
+    if (!this.completed && !this.crashed) {
+	  if(drawBoo){
+	  this.locations.push({x:this.pos.x,y:this.pos.y});}
+      this.vel.add(this.acc);
+      this.pos.add(this.vel);
+      this.acc.mult(0);
+      this.vel.limit(4);
+	 
+	  
+	  fill(100,150,100);
+	}
+  }
+  // displays rocket to window
+  this.show = function() {
+    // push and pop allow's rotating and translation not to affect other objects
+    push();
+    //color customization of rockets
+    noStroke();
+    fill(255, 150);
+    //translate to the postion of rocket
+    translate(this.pos.x, this.pos.y);
+    //rotatates to the angle the rocket is pointing
+    rotate(this.vel.heading());
+    //creates a rectangle shape for rocket
+    rectMode(CENTER);
+    rect(0, 0, 25, 5);
+    pop();
+	if(this.locations==lifespan){this.locations=[];}
+	if(this.locations.length>2){
+		for(var i=0; i<this.locations.length-1;i++){
+			stroke(150,150,150);
+			line(this.locations[i].x,this.locations[i].y,this.locations[i+1].x,this.locations[i+1].y);
+		}
+	}
+  }
+
+}</textarea>
+</form>
+ </div>
+ <div class="col-sm-12 col-md-6 col-lg-4 needSpace" >
+ <h4 class="text-center ">Class for DNA Object</h4>
+ <form><textarea id="code2">
+
+function DNA(genes) {
+  // Recieves genes and create a dna object
+  if (genes) {
+    this.genes = genes;
+  }
+  // If no genes just create random dna
+  else {
+    this.genes = [];
+    for (var i = 0; i < lifespan; i++) {
+      // Gives random vectors
+      this.genes[i] = p5.Vector.random2D();
+      // Sets maximum force of vector to be applied to a rocket
+      this.genes[i].setMag(maxforce);
+    }
+  }
+  // Performs a crossover with another member of the species
+  this.crossover = function(partner) {
+    var newgenes = [];
+    // Picks random midpoint
+    var mid = floor(random(this.genes.length));
+    for (var i = 0; i < this.genes.length; i++) {
+      // If i is greater than mid the new gene should come from this partner
+      if (i > mid) {
+        newgenes[i] = this.genes[i];
+      }
+      // If i < mid new gene should come from other partners gene's
+      else {
+        newgenes[i] = partner.genes[i];
+      }
+    }
+    // Gives DNA object an array
+    return new DNA(newgenes);
+  }
+
+  // Adds random mutation to the genes to add variance.
+  this.mutation = function(num) {
+    for (var i = 0; i < this.genes.length; i++) {
+      // if random number less than 0.01, new gene is then random vector
+	    if(num>0.6){
+			if (random(1) < 0.3){
+			this.genes[i] = p5.Vector.random2D();
+			this.genes[i].setMag(maxforce);
+			}
+		}
+		else if (random(1) < 0.02) {
+				this.genes[i] = p5.Vector.random2D();
+				this.genes[i].setMag(maxforce);
+		}
+	  }
+    }
+  }
+</textarea>
+</form>
+ </div>
+ 
+ <div class="col-sm-12 col-md-6 col-lg-4 needSpace" >
+ <h4 class="text-center ">Class for Population Object</h4>
+ <form><textarea id="code3">
+
+function Population() {
+  // Array of rockets
+  this.rockets = [];
+  this.average;
+  var solution=false;
+  var path;
+  var total=0;
+  // Amount of rockets
+   // this.popsize = 10;
+  // Amount parent rocket partners
+  //this.matingpool = [];
+
+  // Associates a rocket to an array index
+  for (var i = 0; i < popSize; i++) {
+    this.rockets[i] = new Rocket();
+  }
+
+  this.evaluate = function() {
+	average=0;
+	total=0;
+	solution=false;
+	for(var i=0;i<this.rockets.length;i++){
+		if(this.rockets[i].completed){
+			solution=true;
+			path=this.rockets[i].dna;
+		}
+	}
+	if(solution){
+		for(var i=0; i<this.rockets.length;i++){
+			this.rockets[i]=new Rocket(path);
+		}
+	}
+	else{
+    var maxfit = 0;
+    // Iterate through all rockets and calcultes their fitness
+    for (var i = 0; i < popSize; i++) {
+      // Calculates fitness
+      this.rockets[i].calcFitness();
+      // If current fitness is greater than max, then make max eqaul to current
+      if (this.rockets[i].fitness > maxfit) {
+        maxfit = this.rockets[i].fitness;
+      }
+    }
+    // Normalises fitnesses
+    for (var i = 0; i < popSize; i++) {
+      this.rockets[i].fitness /= maxfit;
+    }
+	for(var i = 0; i < popSize; i++){
+		total+=this.rockets[i].fitness;
+	}
+	average=total/popSize;
+	console.log(average);
+	
+
+   /* this.matingpool = [];
+    // Take rockets fitness make in to scale of 1 to 100
+    // A rocket with high fitness will highly likely will be in the mating pool
+    for (var i = 0; i < popSize; i++) {
+      var n = this.rockets[i].fitness * 100;
+      for (var j = 0; j < n; j++) {
+        this.matingpool.push(this.rockets[i]);
+			}	
+		}*/
+	}
+  }
+  // Selects appropriate genes for child
+  this.selection = function() {
+	if(!solution){
+    var newRockets = [];
+	var parentA;
+	var parnetB;
+	var child;
+	var checked=false;
+    for (var i = 0; i < this.rockets.length; i++) {
+		    for (var j = 0; j < this.rockets.length; j++){
+				if(random()<this.rockets[j].fitness){
+					parentA=this.rockets[j].dna;
+					break;
+					}
+			}
+			for (var j = 0; j < this.rockets.length; j++){
+				if(random()<this.rockets[j].fitness){
+					parentB=this.rockets[j].dna;
+					break;
+					}
+				
+			}
+		child = parentA.crossover(parentB);
+		child.mutation(average);
+		
+      // Picks random dna
+      //var parentA = random(this.matingpool).dna;
+      //var parentB = random(this.matingpool).dna;
+      // Creates child by using crossover function
+      // Creates new rocket with child dna
+		newRockets[i] = new Rocket(child);
+    }
+    // This instance of rockets are the new rockets
+    this.rockets = newRockets;
+	}
+  }
+  // Calls for update and show functions
+  this.run = function(array) {
+    for (var i = 0; i < popSize; i++) {
+      this.rockets[i].update(array);
+      // Displays rockets to screen
+      this.rockets[i].show();
+			}
+		}
+}
+
+</textarea>
+</form>
+ </div>
+ </div>
+ </div>
+ <div class="container text-center" id="last">
+ <div class="jumbotron">
+ <h3>The Explanation</h3>
+ <p>
+ For each geneartion, there is an array called rockets, storing the population size of rocket objects,for
+each rocket object, there is also a dna object as a property of a single rocket. The dna object is an array of randomize vectors driving every rocket's move in every frame.
+When a geneartion dies, that is the time when frame reach to 400 by default(will increase as the number of walls increasing), the fitting
+of each rocket will be calculated. In this case,the one with the shortest distance to the target will have the greatest fitness.
+Next step is to use the fitness information to generate dna objects for the next geneartion rockets, we also include a small chance of mutation.
+The new geneartion we get will be more likely to follow their highest fitness parents' path in previous geneartion.</p>
+ 
+ </div>
+ </div>
+ <footer class="container-fluid text-center">
+ <div class="row">
+ <div class="col-sm-6 col-md-6 col-lg-6 col-xsm-6">
+	<h3>Contact Me</h3>
+	<br>
+	<h4>samlaw829@gmail.com</h4>
+ </div>
+ <div class="col-sm-6 col-md-6 col-lg-6 col-xsm-6">
+	<h3>Connect</h3>
+	<a href="#" class="fa fa-facebook"></a>
+	<a href="#" class="fa fa-google"></a>
+	<a href="#" class="fa fa-linkedin"></a>
+	<a href="#" class="fa fa-twitter"></a>
+ </div>
+ </div>
+ <div class=row>
+<div>
+<br>
+Sam @ 2017
+ </div>
+ </footer>
+  <script>
+var editor1 = CodeMirror.fromTextArea(document.getElementById("code1"), {
+  mode: "javascript",
+  styleActiveLine: true,
+  lineNumbers: true,
+ 
+});
+var editor2 = CodeMirror.fromTextArea(document.getElementById("code2"), {
+  mode: "javascript",
+  styleActiveLine: true,
+  lineNumbers: true,
+ 
+});
+var editor3 = CodeMirror.fromTextArea(document.getElementById("code3"), {
+  mode: "javascript",
+  styleActiveLine: true,
+  lineNumbers: true,
+ 
+});
+</script>
+</body>
+</html>

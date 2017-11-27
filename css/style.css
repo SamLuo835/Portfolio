@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css?family=Yantramanav:100');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400');
+
+html,body{
+	margin:0;
+	padding:0;
+	height:100%;
+	width:100%
+}
+
+button{font-family:'Yantramanav',sans-serif;}
+
+.intro{
+	height:100%;
+	width:100%;
+	background:url(../images/background.jpeg);
+	display:table;
+	top:0;
+	background-size:cover;
+}
+.intro .inner{
+	display:table-cell;
+	vertical-align:middle;
+	width:100%;
+	max-width:none;
+}
+.content{
+	max-width:600px;
+	margin:0 auto;
+	text-align:center;
+	padding-bottom:14%;
+	
+}
+section{padding-bottom:50px!important;
+padding-top:50px!important;}
+
+.content h1{
+	
+	font-family:'Yantramanav',sans-serif;
+	font-size:800%;
+
+	font-weight:400;
+	color:transparent;
+	
+	background-image:linear-gradient(to right, #f00,#ff0,#0ff,#0f0,#00f);
+	-webkit-background-clip:text;
+	animation: animate 20s linear infinite;
+	background-size:1000%;
+}
+.content h2{
+	font-family:'Yantramanav',sans-serif;
+	font-size:500%;
+	margin-bottom:60px;
+	font-weight:500;
+	color:transparent;
+	
+	background-image:linear-gradient(to right, #f00,#ff0,#0ff,#0f0,#00f);
+	-webkit-background-clip:text;
+	animation: animate 20s linear infinite;
+	background-size:1000%;
+}
+@keyframes animate{
+	0%
+	{
+		background-position:0% 100%;
+	}
+	50%
+	{
+		background-position:100% 0%;
+	}
+	100%
+	{
+		background-position:0% 100%;
+	}
+}
+
+ .cbtn{
+	font-family:'Montserrat',sans-serif;
+	
+	font-size:135%;
+	font-weight:400%;
+	color:#E1EFE9;
+	text-transform:uppercase;
+	text-decoration:none!important;
+	border:solid #E1EFE9;
+	padding: 10px 20px;
+	border-radius:9px;
+	transition:all 0.5s;
+	
+}
+
+ 
+ .cbtn:hover{
+	color:#CBDFD6;
+	border:solid #222 2px;
+}
+.cbtn:focus{
+	color:#E1EFE9!important;
+	
+}
+
+
+/*--- Media Queries --*/
+@media screen and (max-width: 900px) {
+	.content{
+		padding-bottom:30%;
+	}
+	.content h1{
+		font-size:450%;
+	}
+	.content h2{
+		font-size:250%;
+	}
+	.cbtn{
+		font-size:110%;
+		padding:9px 17px;
+	}
+}
+@media screen and (max-width: 768px) {
+	.content{
+		padding-bottom:40%;
+	}
+	.content h1{
+		font-size:300%;
+	}
+	.content h2{
+		font-size:150%;
+	}
+	.cbtn{
+		font-size:110%;
+		padding:9px 17px;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.content{
+		padding-bottom:50%;
+	}
+	.content h1{
+		font-size:250%;
+	}
+	.content h2{
+		font-size:150%;
+	}
+	.cbtn{
+		font-size:110%;
+		padding:6px 14px;
+	}
+}
